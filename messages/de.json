@@ -1,0 +1,8 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"home": "Home",
+	"playlists": "Playlists",
+	"logout": "Logout",
+	"search": "Suche",
+	"uploadFile": "Klicke um eine Datei hochzuladen oder ziehe sie hierher"
+}
