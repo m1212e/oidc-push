@@ -33,17 +33,7 @@ export const user = pgTable('user', {
 	familyName: text().notNull(),
 	givenName: text().notNull(),
 	locale: text(),
-	preferredUsername: text().notNull()
+	preferredUsername: text().notNull(),
+
+	ntfyTopic: text().unique()
 });
-
-// export const user = pgTable('user', {
-// 	id: text().primaryKey().unique().notNull(),
-// 	...defaultTimestamps,
-
-// 	// OIDC fields
-// 	email: text().notNull().unique(),
-// 	familyName: text().notNull(),
-// 	givenName: text().notNull(),
-// 	locale: text(),
-// 	preferredUsername: text().notNull()
-// });

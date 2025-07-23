@@ -1,24 +1,26 @@
 import { configPrivate } from '$config/private';
 import { SMTPServer } from 'smtp-server';
 import { simpleParser } from 'mailparser';
+import { sendMessage } from './sendMessage';
 
 // You can send an example mail with
-// msmtp --host=localhost --port=3388 --auth=off --tls=off --from=sender@example.com recipient@example.com < dev-example-mail.txt
+// msmtp --host=localhost --port=3388 --auth=off --tls=off --from=sender@example.com admin@project.de < dev-example-mail.txt
 
 export const smtpServer = new SMTPServer({
 	authOptional: true,
 	onData(stream, session, cb) {
 		stream.on('end', () => cb(null));
-		simpleParser(stream, (err, parsed) => {
+		simpleParser(stream, async (err, parsed) => {
 			if (err) {
 				console.error(err);
 				return;
 			}
 
-			console.log(parsed);
-			console.log('to', parsed.to.text);
-			console.log('subject', parsed.subject);
-			console.log('text', parsed.text);
+			await sendMessage({
+				body: parsed?.text,
+				title: parsed?.subject,
+				targetEmail: (parsed as any)?.to?.text
+			});
 		});
 	}
 });

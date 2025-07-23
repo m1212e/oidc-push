@@ -1,8 +1,17 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"home": "Home",
-	"playlists": "Playlists",
-	"logout": "Logout",
-	"search": "Search",
-	"uploadFile": "Click to upload a file or drag it here"
+	"connectNotifications": "Connect notifications",
+	"connectNotificationsExplaination": "Please follow the below steps to setup notifications for your devices.",
+	"downloadTheNTFYApp": "1. Download the NTFY app",
+	"downloadTheNTFYAppExplaination": "To download the NTFY app, follow the below link and select the correct store for your platform.",
+	"downloadNTFY": "Download NTFY",
+	"createATopic": "2. Create a topic",
+	"createATopicExplaination": "Topics are used to send and receive notifications. They are unique to each user and should be kept secret to you. Everyone with ",
+	"topicExplaination": "Topics are used to send and receive notifications. They are unique to each user and should be kept secret to you. Everyone with access to your topic can access your notifications which might contain sensitive data! So make sure to keep it to yourself!",
+	"createYourTopic": "Create your topic",
+	"copy": "Copy",
+	"reset": "Reset",
+	"resetExplaination": "Resetting your topic will make the old one unuseable. If you proceed, you will need to put the new topic in place on all your subscribed devices. You should perform a reset in case your old topic got compromised.",
+	"confirm": "Confirm",
+	"cancel": "Cancel"
 }

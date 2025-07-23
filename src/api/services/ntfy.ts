@@ -1,6 +1,6 @@
 import { configPrivate } from '$config/private';
 
-export function sendToNtfyTopic({
+export async function sendToNtfyTopic({
 	body,
 	topic,
 	title
@@ -9,7 +9,7 @@ export function sendToNtfyTopic({
 	body: string;
 	title: string;
 }) {
-	fetch(`${configPrivate.NTFY_HOST}/${topic}`, {
+	const res = await fetch(`${configPrivate.NTFY_HOST}/${topic}`, {
 		method: 'POST',
 		body,
 		headers: {
@@ -18,4 +18,8 @@ export function sendToNtfyTopic({
 			// Tags: 'warning,skull'
 		}
 	});
+
+	if (!res.ok) {
+		console.error('Failed to send notification:', await res.text());
+	}
 }

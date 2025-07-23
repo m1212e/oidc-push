@@ -25,6 +25,6 @@
 
 <style>
 	:global(body) {
-		@apply h-screen w-screen;
+		@apply flex h-screen w-screen justify-center;
 	}
 </style>

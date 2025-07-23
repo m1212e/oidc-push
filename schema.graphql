@@ -131,6 +131,7 @@ type User {
   givenName: String!
   id: ID!
   locale: String
+  ntfyTopic: String
   preferredUsername: String!
   updatedAt: DateTime
 }
@@ -142,6 +143,7 @@ input UserWhereInputArgument {
   givenName: StringWhereInputArgument
   id: ID
   locale: StringWhereInputArgument
+  ntfyTopic: StringWhereInputArgument
   preferredUsername: StringWhereInputArgument
   updatedAt: DateWhereInputArgument
 }

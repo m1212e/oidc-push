@@ -1,5 +1,5 @@
 From: sender@example.com
-To: recipient@example.com
+To: admin@project.de
 Subject: Test Subject
 
 Test message

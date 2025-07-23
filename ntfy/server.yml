@@ -1,2 +1,0 @@
-auth-file: '/var/lib/ntfy/user.db'
-auth-default-access: 'read-only'
