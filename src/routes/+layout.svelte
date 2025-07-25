@@ -4,13 +4,14 @@
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
 	import { Toaster } from 'svelte-french-toast';
 	import '../app.css';
+	import { m } from '$lib/paraglide/messages';
 
 	let { children } = $props();
 	enableViewTransitionApi();
 </script>
 
 <svelte:head>
-	<title>TODO</title>
+	<title>{m.notifications()}</title>
 </svelte:head>
 
 {@render children()}
