@@ -17,7 +17,7 @@ What a logged in user sees:
 
 ## How to deploy?
 
-Please see the [example docker compose file](./example/docker-compose.yml) for a more in depth example and more explanation.
+Please see the [example docker compose file](./example/docker-compose.yml) for a more in depth example and more explanation. See the [config dir](./src/lib/config/) for all available config options.
 
 ```yml
 oidc-push:
