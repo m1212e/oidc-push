@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d postgres -U postgres']
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    volumes:
+      - oidc-push:/var/lib/postgresql/data
+
+  oidc-push:
+    image: m1212e/oidc-push
+    environment:
+      # where to connect to postgres
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+      # oidc issuer openid configuration
+      PUBLIC_OIDC_AUTHORITY: http://localhost:8080/default/.well-known/openid-configuration
+      # the client to use with that issuer
+      PUBLIC_OIDC_CLIENT_ID: default
+      # in case your client requires a secret, you need to set it like this
+      # OIDC_CLIENT_SECRET: 123
+      # where to connect to ntfy, defaults to http://ntfy.sh
+      # PUBLIC_NTFY_HOST: http://localhost:80
+      # optionally you can override how the container actually connects to ntfy
+      # might be useful if hosting behind a reverse proxy and the public ntfy link is different to the internal one
+      # NTFY_HOST: http://localhost:80
+      # PUBLIC_TOPIC_PREFIX: myselfhostedapps
+
+      # Please see https://svelte.dev/docs/kit/adapter-node#Environment-variables for details
+      # on what vars are available. Especially if you plan on using the app behind a reverse proxy
+      # like traefik or caddy
+
+      # For more advanced configuration and more explanation on the vars,
+      # please see src/lib/config
+    ports:
+      - 3000:3000 # web interface, can be exposed publicly
+      - 3388:3388 # SMTP server, insecure, should be restricted to trusted network
+
+volumes:
+  oidc-push:
