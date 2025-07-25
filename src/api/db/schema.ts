@@ -1,14 +1,5 @@
 import { nanoid } from '../../lib/helpers/nanoid';
-import {
-	pgTable,
-	text,
-	timestamp,
-	unique,
-	pgEnum,
-	boolean,
-	smallint,
-	type AnyPgColumn
-} from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 const defaultTimestamps = {
 	createdAt: timestamp().defaultNow().notNull(),

@@ -43,6 +43,7 @@ RUN chown -R bun:bun .
 USER bun
 ENV NODE_ENV=production
 EXPOSE 3000/tcp
+EXPOSE 3388/tcp
 # TODO
 # HEALTHCHECK --interval=15s --timeout=10s --retries=3 CMD curl -f http://0.0.0.0:3000/api/health/ready || exit 1
 CMD ["sh", "-c", "bunx drizzle-kit migrate && bun ./index.js"]
