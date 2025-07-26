@@ -8,6 +8,7 @@ import { sendMessage } from './sendMessage';
 
 export const smtpServer = new SMTPServer({
 	authOptional: true,
+	secure: false,
 	onData(stream, session, cb) {
 		stream.on('end', () => cb(null));
 		simpleParser(stream, async (err, parsed) => {
