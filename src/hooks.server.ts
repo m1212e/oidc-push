@@ -3,8 +3,7 @@ import { paraglideMiddleware } from '$lib/paraglide/server';
 import { sequence } from '@sveltejs/kit/hooks';
 import { OIDC } from '$api/services/OIDC';
 import type { ServerInit } from '@sveltejs/kit';
-import { smtpServer } from '$api/services/smtp';
-import { dev } from '$app/environment';
+import { closeSMTPServer } from '$api/services/smtp';
 
 export const handle: Handle = sequence(OIDC.handle, ({ event, resolve }) =>
 	paraglideMiddleware(event.request, ({ request: localizedRequest, locale }) => {
@@ -20,6 +19,6 @@ export const handle: Handle = sequence(OIDC.handle, ({ event, resolve }) =>
 
 export const init: ServerInit = async () => {
 	process.on('sveltekit:shutdown', async (reason) => {
-		smtpServer.close();
+		closeSMTPServer();
 	});
 };

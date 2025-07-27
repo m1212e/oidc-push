@@ -6,9 +6,9 @@ import { sendMessage } from './sendMessage';
 // You can send an example mail with
 // msmtp --host=localhost --port=3388 --auth=off --tls=off --from=sender@example.com admin@project.de < dev-example-mail.txt
 
-export const smtpServer = new SMTPServer({
+const smtpServer = new SMTPServer({
 	authOptional: true,
-	secure: false,
+	disabledCommands: ['STARTTLS'],
 	onData(stream, session, cb) {
 		stream.on('end', () => cb(null));
 		simpleParser(stream, async (err, parsed) => {
@@ -33,3 +33,11 @@ smtpServer.on('error', (err) => {
 smtpServer.listen(configPrivate.SMTP_PORT, configPrivate.SMTP_HOST);
 
 console.info(`SMTP server listening on ${configPrivate.SMTP_HOST}:${configPrivate.SMTP_PORT}`);
+
+smtpServer.on('close', () => {
+	console.info('SMTP server closed');
+});
+
+export function closeSMTPServer() {
+	smtpServer.close();
+}
