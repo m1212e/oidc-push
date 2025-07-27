@@ -14,9 +14,6 @@ jobs:
   build:
     name: Build and publish container images
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        architecture: [amd64, arm64]
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -54,7 +51,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          platforms: linux/${{ matrix.architecture }}
+          platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
