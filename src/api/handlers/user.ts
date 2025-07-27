@@ -3,7 +3,10 @@ import { abilityBuilder, schemaBuilder } from '$api/rumble';
 import { configPrivate } from '$config/private';
 import { configPublic } from '$config/public';
 import { nanoid } from '$lib/helpers/nanoid';
+import { assertFindFirstExists } from '@m1212e/rumble';
 import { basics } from './basics';
+import { GraphQLError } from 'graphql';
+import { sendMessage } from '$api/services/sendMessage';
 
 const { arg, ref, pubsub, table } = basics('user');
 
@@ -87,6 +90,32 @@ schemaBuilder.mutationFields((t) => {
 						}).query.single
 					)
 				);
+			}
+		}),
+		sendTest: t.field({
+			type: 'String',
+			resolve: async (root, args, ctx, info) => {
+				const user = ctx.mustBeLoggedIn();
+
+				const dbUser = await db.query.user
+					.findFirst({
+						where: {
+							id: user.sub
+						}
+					})
+					.then(assertFindFirstExists);
+
+				if (!dbUser.ntfyTopic) {
+					throw new GraphQLError('You need to set a topic first!');
+				}
+
+				await sendMessage({
+					body: 'Test',
+					title: 'Test',
+					targetEmail: dbUser!.email
+				});
+
+				return 'OK';
 			}
 		})
 	};

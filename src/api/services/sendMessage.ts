@@ -40,4 +40,6 @@ export async function sendMessage({
 		topic: foundUser.ntfyTopic,
 		title
 	});
+
+	console.info('Sent notification to', foundUser.email, foundUser.ntfyTopic.slice(0, 5) + '...');
 }

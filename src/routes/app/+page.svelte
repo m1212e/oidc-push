@@ -3,7 +3,7 @@
 	import { m } from '$lib/paraglide/messages';
 	import toast from 'svelte-french-toast';
 	import type { PageData } from './$houdini';
-	import { LogOut, Plus, Copy, Undo2, Trash2, SquareArrowOutUpRight } from 'lucide-svelte';
+	import { LogOut, Plus, Copy, Undo2, Trash2, SquareArrowOutUpRight, Send } from 'lucide-svelte';
 	import { Modal } from '@skeletonlabs/skeleton-svelte';
 	import { configPublic } from '$config/public';
 
@@ -28,6 +28,12 @@
 				id
 				ntfyTopic
 			}
+		}
+	`);
+
+	const SendTestMutation = graphql(`
+		mutation SendTestMutation {
+			sendTest
 		}
 	`);
 </script>
@@ -113,6 +119,21 @@
 					}}><Copy />{m.copy()}</button
 				>
 			</div>
+		{/if}
+		{#if topic}
+			<h1 class="mt-8 text-3xl font-bold">{m.sendTest()}</h1>
+			<p>{m.sendTestExplaination()}</p>
+			<button
+				type="button"
+				class="btn preset-filled-primary-500 mt-4"
+				onclick={async () => {
+					await SendTestMutation.mutate(null);
+					toast.success(m.sent());
+				}}
+			>
+				<Send />
+				{m.send()}</button
+			>
 		{/if}
 	</div>
 

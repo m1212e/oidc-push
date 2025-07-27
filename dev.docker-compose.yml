@@ -57,15 +57,15 @@ services:
     volumes:
       - ./mock-oidc-landingpage.html:/static/mock-oidc-landingpage.html
 
-  ntfy:
-    image: binwiederhier/ntfy
-    command:
-      - serve
-    volumes:
-      - ./ntfy:/etc/ntfy
-    ports:
-      - 80:80
-    restart: unless-stopped
+  # ntfy:
+  #   image: binwiederhier/ntfy
+  #   command:
+  #     - serve
+  #   volumes:
+  #     - ./ntfy:/etc/ntfy
+  #   ports:
+  #     - 80:80
+  #   restart: unless-stopped
 
 volumes:
   project-dev:

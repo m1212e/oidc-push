@@ -90,6 +90,7 @@ scalar JSON
 type Mutation {
   removeTopic: User
   resetTopic: User
+  sendTest: String
 }
 
 type Query {

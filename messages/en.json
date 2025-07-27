@@ -21,5 +21,9 @@
 	"subscribeToTheTopic": "3. Subscribe to the topic",
 	"subscribeToTheTopicExplaination": "Finally, you have to subcribe to the topic. You can do this on all devices you want to receive notifications on. For instructions on how to do that, see the link below.",
 	"instructions": "Instructions",
-	"differentServerExplaination": "When asked if you would like to configure a different server, do that and fill the below value"
+	"differentServerExplaination": "When asked if you would like to configure a different server, do that and fill the below value",
+	"sendTest": "4. Send a test notification (optional)",
+	"sendTestExplaination": "Send a test notification to all your devices to make sure everything is working as expected.",
+	"send": "Send",
+	"sent": "Sent!"
 }
