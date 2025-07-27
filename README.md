@@ -12,7 +12,6 @@ Converts E-Mails from your services to ntfy push notifications!
 
 > By ensuring any service that sends out E-Mail notifications and oidc-push use the same OIDC provider, you can automatically map E-Mails to push notifications
 
-What a logged in user sees:
 ![Screenshot of the web app](./screenshots/1.png?raw=true 'Screenshot of the web app')
 
 ## How to deploy?
