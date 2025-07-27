@@ -7,8 +7,7 @@ import { sendMessage } from './sendMessage';
 // msmtp --host=localhost --port=3388 --auth=off --tls=off --from=sender@example.com admin@project.de < dev-example-mail.txt
 
 const smtpServer = new SMTPServer({
-	authOptional: true,
-	disabledCommands: ['STARTTLS'],
+	disabledCommands: ['AUTH', 'STARTTLS'],
 	onData(stream, session, cb) {
 		stream.on('end', () => cb(null));
 		simpleParser(stream, async (err, parsed) => {
