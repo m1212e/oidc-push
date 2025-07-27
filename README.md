@@ -6,7 +6,7 @@ Converts E-Mails from your services to ntfy push notifications!
 
 - oidc-push hosts an SMTP server and a webserver
 - On the web interface, a user can login via OIDC
-- They can generate a secure random string which will be used as a ntfy topic. Additionally, there is some guidance on how ntfy can be installed and used so people unfamiliar with ntfy wont be overwhelmed
+- They can generate a secure random string which will be used as a ntfy topic. Additionally, there is some guidance on how ntfy can be installed and used so people unfamiliar with ntfy won't be overwhelmed
 - When the SMTP server receives an E-Mail, the recipient E-Mail is matched against registered users
 - When a match is found and the user has registered a ntfy topic, the email will be forwarded to that ntfy topic, which in turn allows any device of the user to get that message as a push notification
 
