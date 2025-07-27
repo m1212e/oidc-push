@@ -33,4 +33,4 @@ oidc-push:
     - 3388:3388 # SMTP server, insecure, should be restricted to trusted network
 ```
 
-> Beware: The SMTP server is not secured! It will accept all credentials if you even set any and does not enforce any auth or tls. Keep it closed to networks you trust.
+> Beware: The SMTP server is not secured! Keep it closed to networks you trust.
