@@ -16,10 +16,15 @@ const smtpServer = new SMTPServer({
 				return;
 			}
 
+			const address = (parsed as any).to.value.at(0).address;
+			if (!address) {
+				throw new Error('No address found in incoming mail');
+			}
+
 			await sendMessage({
 				body: parsed?.text,
 				title: parsed?.subject,
-				targetEmail: (parsed as any)?.to?.text
+				targetEmail: address
 			});
 		});
 	}
