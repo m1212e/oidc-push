@@ -1,14 +1,21 @@
 import { db, schema } from '$api/db/db';
-import { abilityBuilder, schemaBuilder } from '$api/rumble';
+import { abilityBuilder, object, pubsub, query, schemaBuilder } from '$api/rumble';
 import { configPrivate } from '$config/private';
 import { configPublic } from '$config/public';
 import { nanoid } from '$lib/helpers/nanoid';
 import { assertFindFirstExists } from '@m1212e/rumble';
-import { basics } from './basics';
 import { GraphQLError } from 'graphql';
 import { sendMessage } from '$api/services/sendMessage';
 
-const { arg, ref, pubsub, table } = basics('user');
+const ref = object({
+	table: 'user'
+});
+const pubs = pubsub({
+	table: 'user'
+});
+query({
+	table: 'user'
+});
 
 abilityBuilder.user.allow(['read', 'update']).when(({ oidc }) => {
 	if (oidc?.user) {
@@ -33,24 +40,20 @@ schemaBuilder.mutationFields((t) => {
 						ntfyTopic: configPublic.PUBLIC_TOPIC_PREFIX + nanoid(topicLength)
 					})
 					.where(
-						ctx.abilities.user.filter('update', {
-							inject: {
-								where: {
-									id: user.sub
-								}
+						ctx.abilities.user.filter('update').merge({
+							where: {
+								id: user.sub
 							}
 						}).sql.where
 					);
 
-				pubsub.updated(user.sub);
+				pubs.updated(user.sub);
 
 				return db.query.user.findFirst(
 					query(
-						ctx.abilities.user.filter('read', {
-							inject: {
-								where: {
-									id: user.sub
-								}
+						ctx.abilities.user.filter('read').merge({
+							where: {
+								id: user.sub
 							}
 						}).query.single
 					)
@@ -68,24 +71,20 @@ schemaBuilder.mutationFields((t) => {
 						ntfyTopic: null
 					})
 					.where(
-						ctx.abilities.user.filter('update', {
-							inject: {
-								where: {
-									id: user.sub
-								}
+						ctx.abilities.user.filter('update').merge({
+							where: {
+								id: user.sub
 							}
 						}).sql.where
 					);
 
-				pubsub.updated(user.sub);
+				pubs.updated(user.sub);
 
 				return db.query.user.findFirst(
 					query(
-						ctx.abilities.user.filter('read', {
-							inject: {
-								where: {
-									id: user.sub
-								}
+						ctx.abilities.user.filter('read').merge({
+							where: {
+								id: user.sub
 							}
 						}).query.single
 					)

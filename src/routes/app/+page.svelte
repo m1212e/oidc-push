@@ -9,7 +9,7 @@
 
 	let { data }: { data: PageData } = $props();
 	let topicQuery = $derived(data.TopicQuery);
-	let topic = $derived($topicQuery.data?.findManyUser.at(0)?.ntfyTopic);
+	let topic = $derived($topicQuery.data?.users.at(0)?.ntfyTopic);
 	let resetModalOpenState = $state(false);
 	let removeModalOpenState = $state(false);
 

@@ -9,9 +9,8 @@ if (dev) {
 	import('$api/handlers/register');
 }
 
-export const { abilityBuilder, schemaBuilder, arg, object, query, pubsub, createYoga, enum_ } =
-	rumble({
-		db,
-		context,
-		defaultLimit: 300
-	});
+export const { abilityBuilder, schemaBuilder, object, query, pubsub, createYoga, enum_ } = rumble({
+	db,
+	context,
+	defaultLimit: 300
+});

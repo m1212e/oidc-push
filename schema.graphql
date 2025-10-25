@@ -94,8 +94,16 @@ type Mutation {
 }
 
 type Query {
-  findFirstUser(where: UserWhereInputArgument): User!
-  findManyUser(limit: Int, offset: Int, where: UserWhereInputArgument): [User!]!
+  """Get a single user by ID"""
+  user(id: ID!): User!
+
+  """List all users"""
+  users(limit: Int, offset: Int, orderBy: UserOrderInputArgument, where: UserWhereInputArgument): [User!]!
+}
+
+enum SortingParameter {
+  asc
+  desc
 }
 
 input StringWhereInputArgument {
@@ -122,8 +130,11 @@ input StringWhereInputArgument {
 }
 
 type Subscription {
-  findFirstUser(where: UserWhereInputArgument): User!
-  findManyUser(limit: Int, offset: Int, where: UserWhereInputArgument): [User!]!
+  """Get a single user by ID"""
+  user(id: ID!): User!
+
+  """List all users"""
+  users(limit: Int, offset: Int, orderBy: UserOrderInputArgument, where: UserWhereInputArgument): [User!]!
 }
 
 type User {
@@ -136,6 +147,18 @@ type User {
   ntfyTopic: String
   preferredUsername: String!
   updatedAt: DateTime
+}
+
+input UserOrderInputArgument {
+  createdAt: SortingParameter
+  email: SortingParameter
+  familyName: SortingParameter
+  givenName: SortingParameter
+  id: SortingParameter
+  locale: SortingParameter
+  ntfyTopic: SortingParameter
+  preferredUsername: SortingParameter
+  updatedAt: SortingParameter
 }
 
 input UserWhereInputArgument {

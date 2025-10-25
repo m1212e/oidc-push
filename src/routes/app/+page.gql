@@ -1,5 +1,5 @@
 query TopicQuery {
-	findManyUser {
+	users {
 		id
 		ntfyTopic
 	}
