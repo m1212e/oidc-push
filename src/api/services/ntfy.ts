@@ -14,7 +14,7 @@ export async function sendToNtfyTopic({
 		method: 'PUT',
 		body: JSON.stringify({ message: body, topic }),
 		headers: {
-			Title: title
+			Title: encodeURIComponent(title)
 			// Priority: 'urgent',
 			// Tags: 'warning,skull'
 		}
