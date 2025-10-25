@@ -1,6 +1,12 @@
 import { configPrivate } from '$config/private';
 import { configPublic } from '$config/public';
 
+function encodeRFC2047B(str: string) {
+	// Use Buffer in Node; fallback to btoa in browser-like envs
+	const base64 = Buffer.from(str, 'utf8').toString('base64');
+	return `=?UTF-8?B?${base64}?=`;
+}
+
 export async function sendToNtfyTopic({
 	body,
 	topic,
@@ -14,7 +20,7 @@ export async function sendToNtfyTopic({
 		method: 'PUT',
 		body: JSON.stringify({ message: body, topic }),
 		headers: {
-			Title: encodeURIComponent(title)
+			Title: encodeRFC2047B(title)
 			// Priority: 'urgent',
 			// Tags: 'warning,skull'
 		}
