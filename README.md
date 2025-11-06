@@ -19,18 +19,19 @@ Converts E-Mails from your services to ntfy push notifications!
 Please see the [example docker compose file](./example/docker-compose.yml) for a more in depth example and more explanation. See the [config dir](./src/lib/config/) for all available config options.
 
 ```yml
-oidc-push:
-  image: m1212e/oidc-push
-  environment:
-    # where to connect to postgres
-    DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
-    # oidc issuer openid configuration
-    PUBLIC_OIDC_AUTHORITY: http://localhost:8080/default/.well-known/openid-configuration
-    # the client to use with that issuer
-    PUBLIC_OIDC_CLIENT_ID: default
-  ports:
-    - 3000:3000 # web interface, can be exposed publicly
-    - 3388:3388 # SMTP server, insecure, should be restricted to trusted network
+services:
+  oidc-push:
+    image: m1212e/oidc-push
+    environment:
+      # where to connect to postgres
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+      # oidc issuer openid configuration
+      PUBLIC_OIDC_AUTHORITY: http://localhost:8080/default/.well-known/openid-configuration
+      # the client to use with that issuer
+      PUBLIC_OIDC_CLIENT_ID: default
+    ports:
+      - 3000:3000 # web interface, can be exposed publicly
+      - 3388:3388 # SMTP server, insecure, should be restricted to trusted network
 ```
 
 > Beware: The SMTP server is not secured! Keep it closed to networks you trust.
