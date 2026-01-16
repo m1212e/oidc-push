@@ -67,7 +67,6 @@ jobs:
         uses: docker/build-push-action@v5
         id: build
         with:
-          load: true
           push: false
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
