@@ -1,6 +1,7 @@
 {
 	"name": "project",
 	"type": "module",
+	"version": "0.0.12",
 	"private": true,
 	"scripts": {
 		"build": "vite build",
@@ -72,6 +73,5 @@
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.38.0",
 		"vite": "^7.0.6"
-	},
-	"version": "0.0.1"
+	}
 }
