@@ -1,5 +1,3 @@
-name: Build and publish container image
-
 on:
   push:
     branches:
@@ -15,9 +13,24 @@ jobs:
     name: Build and publish container images
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Run Trivy scanner on fs
+        uses: aquasecurity/trivy-action@0.32.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          exit-code: 1
+          format: 'table'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          trivyignores: .trivyignore
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -38,6 +51,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
+          flavor: |
+            latest=false
           images: |
             m1212e/oidc-push
             ghcr.io/${{ github.repository }}
@@ -46,16 +61,54 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
 
-      - name: Build and push Docker image
+      - name: Build Docker image
         uses: docker/build-push-action@v5
+        id: build
         with:
-          push: true
+          load: true
+          push: false
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            VERSION=${{ github.event.release.tag_name }}
-            SHA=${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            TAG=${{ steps.split-tags.outputs.fragment }}
+            SHA=${{ github.sha }}
+
+      - name: Get first built image ref
+        id: split-tags
+        run: echo "fragment=$(echo "${DOCKER_METADATA_OUTPUT_TAGS}" | head -n 1)" >> $GITHUB_OUTPUT
+
+      - name: Run Trivy vulnerability scanner on the built image
+        uses: aquasecurity/trivy-action@0.32.0
+        with:
+          image-ref: ${{ steps.split-tags.outputs.fragment }}
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+          skip-setup-trivy: true
+          trivyignores: .trivyignore
+
+      - name: Push images
+        run: |
+          set -eu
+          echo "Pushing images..."
+          TAGS="${{ steps.meta.outputs.tags }}"
+          echo "Raw tags: $TAGS"
+          echo "$TAGS" | sed 's/,/ /g' | tr ' ' '\n' | sed '/^\s*$/d' | while read -r tag; do
+            echo "Pushing $tag"
+            docker push "$tag"
+          done
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
